@@ -3,147 +3,189 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rahul Vinayak J. R. - Portfolio</title>
+  <title>Rahul Vinayak J. R. | Portfolio</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: "Poppins", sans-serif;
       background: #0d1117;
-      color: #ffffff;
-      line-height: 1.6;
+      color: #e6edf3;
+      overflow-x: hidden;
     }
+
     header {
-      background: #161b22;
-      padding: 40px 20px;
       text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(135deg, #0a192f, #112240);
     }
-    header h1 {
+
+    h1 {
+      font-size: 3rem;
       margin: 0;
-      font-size: 2.5em;
-      color: #58a6ff;
+      animation: fadeInDown 1.5s ease;
     }
-    header h3 {
-      margin: 10px 0 0;
-      font-weight: normal;
-      color: #c9d1d9;
-    }
-    section {
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: auto;
-    }
+
     h2 {
+      font-size: 1.5rem;
       color: #58a6ff;
-      border-bottom: 2px solid #30363d;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
+      animation: fadeInUp 2s ease;
     }
-    .skills span {
+
+    /* Typewriter effect */
+    .typewriter {
       display: inline-block;
-      background: #21262d;
-      color: #58a6ff;
-      padding: 8px 15px;
-      margin: 5px;
-      border-radius: 20px;
-      font-size: 0.9em;
+      border-right: 2px solid #58a6ff;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 4s steps(30, end), blink 0.75s step-end infinite;
     }
-    .project {
-      background: #161b22;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 5px #0c0c0c;
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
     }
-    .project h3 {
-      margin-top: 0;
-      color: #ffffff;
+
+    @keyframes blink {
+      50% { border-color: transparent }
     }
-    .project a {
-      color: #58a6ff;
-      text-decoration: none;
-    }
-    .contact p, .contact a {
-      color: #c9d1d9;
-      font-size: 1em;
-    }
-    .contact a {
-      color: #58a6ff;
-      text-decoration: none;
-    }
-    footer {
+
+    section {
+      padding: 60px 20px;
       text-align: center;
-      padding: 20px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .card {
       background: #161b22;
-      font-size: 0.9em;
-      color: #8b949e;
+      padding: 20px;
+      border-radius: 12px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .skills {
+      max-width: 600px;
+      margin: auto;
+      text-align: left;
+    }
+
+    .skill {
+      margin: 15px 0;
+    }
+
+    .skill-bar {
+      height: 10px;
+      background: #30363d;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 10px;
+      background: #58a6ff;
+      width: 0;
+      transition: width 2s ease;
+    }
+
+    footer {
+      padding: 20px;
+      background: #0a0f14;
+      text-align: center;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Rahul Vinayak J. R.</h1>
-    <h3>Electronics & Embedded Systems Developer</h3>
+    <h1 class="typewriter">Hi, I'm Rahul Vinayak J. R.</h1>
+    <h2>Electronics & Embedded Systems Developer</h2>
   </header>
 
-  <section>
-    <h2>⚡ About Me</h2>
-    <p>
-      Passionate about building real-time embedded systems, PCB designs, and IoT solutions. Experienced with STM32, ESP32, Arduino, FreeRTOS, and KiCad.
-    </p>
+  <section id="about">
+    <h2>👤 About Me</h2>
+    <p>I design, build, and code electronics systems — from STM32 & ESP32 to FreeRTOS & KiCad projects.</p>
   </section>
 
-  <section>
-    <h2>🛠 Skills</h2>
+  <section id="skills">
+    <h2>⚡ Skills</h2>
     <div class="skills">
-      <span>C</span>
-      <span>C++</span>
-      <span>Python</span>
-      <span>STM32</span>
-      <span>ESP32</span>
-      <span>Arduino</span>
-      <span>FreeRTOS</span>
-      <span>KiCad</span>
+      <div class="skill">
+        <p>STM32</p>
+        <div class="skill-bar"><div class="skill-fill" style="width: 85%;"></div></div>
+      </div>
+      <div class="skill">
+        <p>ESP32</p>
+        <div class="skill-bar"><div class="skill-fill" style="width: 90%;"></div></div>
+      </div>
+      <div class="skill">
+        <p>FreeRTOS</p>
+        <div class="skill-bar"><div class="skill-fill" style="width: 75%;"></div></div>
+      </div>
+      <div class="skill">
+        <p>KiCad</p>
+        <div class="skill-bar"><div class="skill-fill" style="width: 70%;"></div></div>
+      </div>
     </div>
   </section>
 
-  <section>
-    <h2>🚀 Projects</h2>
-
-    <div class="project">
-      <h3>🔌 Contributions</h3>
-      <p>Electronics schematics, embedded codes, and PCB designs.</p>
-      <a href="https://github.com/your-username/contributions" target="_blank">View on GitHub</a>
+  <section id="projects">
+    <h2>📂 Projects</h2>
+    <div class="projects">
+      <div class="card">🔌 STM32 UART Slave with FreeRTOS</div>
+      <div class="card">📡 ESP32 OTA Update + Neopixel</div>
+      <div class="card">⚡ KiCad Schematics for Custom Board</div>
     </div>
-
-    <div class="project">
-      <h3>⚙️ STM32 FreeRTOS Examples</h3>
-      <p>Task scheduling, UART, I2C, and SPI examples for STM32 with FreeRTOS.</p>
-    </div>
-
-    <div class="project">
-      <h3>📡 ESP32 IoT Projects</h3>
-      <p>OTA, Wi-Fi integration, and IoT applications with ESP32.</p>
-    </div>
-
-    <div class="project">
-      <h3>🖥️ KiCad PCB Designs</h3>
-      <p>Open-source PCB layouts and circuit designs using KiCad.</p>
-    </div>
-
   </section>
 
-  <section class="contact">
-    <h2>📫 Contact</h2>
+  <section id="contact">
+    <h2>📬 Contact</h2>
     <p>Email: <a href="mailto:rahul@example.com">rahul@example.com</a></p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/your-linkedin" target="_blank">linkedin.com/in/your-linkedin</a></p>
-    <p>GitHub: <a href="https://github.com/your-username" target="_blank">github.com/your-username</a></p>
+    <p>GitHub: <a href="https://github.com/your-username">your-username</a></p>
   </section>
 
   <footer>
-    ⭐ Exploring electronics, one project at a time.
+    © 2025 Rahul Vinayak J. R. | Built with ❤️ using HTML5, CSS, JS
   </footer>
+
+  <script>
+    // Scroll reveal effect
+    const sections = document.querySelectorAll("section");
+    window.addEventListener("scroll", () => {
+      const trigger = window.innerHeight / 1.2;
+      sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if(top < trigger) sec.classList.add("visible");
+      });
+    });
+
+    // Animate skill bars
+    window.addEventListener("load", () => {
+      document.querySelectorAll(".skill-fill").forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = "0";
+        setTimeout(() => { bar.style.width = width; }, 300);
+      });
+    });
+  </script>
 
 </body>
 </html>
