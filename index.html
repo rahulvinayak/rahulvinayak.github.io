@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - ECE Engineer</title>
+    <title>Rahul Vinayak J R - ECE Engineer</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -32,7 +32,7 @@
             overflow-x: hidden;
         }
 
-        /* Animated Background */
+        /* PCB Circuit Animated Background */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -40,43 +40,408 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(45deg, var(--dark-bg), var(--darker-bg));
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #0d1129 50%, #16213d 75%, var(--darker-bg) 100%);
+            overflow: hidden;
         }
 
+        /* PCB Grid Pattern */
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridShift 20s linear infinite;
+        }
+
+        @keyframes gridShift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Circuit Traces */
         .circuit-line {
             position: absolute;
-            background: var(--primary-color);
-            opacity: 0.1;
-            animation: pulse 3s infinite;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            opacity: 0.15;
+            border-radius: 0.5px;
+            box-shadow: 0 0 3px rgba(0, 212, 255, 0.3);
         }
 
         .circuit-line.horizontal {
-            height: 1px;
-            width: 100px;
-            animation: slideRight 8s infinite;
+            height: 2px;
+            width: 120px;
+            animation: traceFlowH 10s linear infinite;
         }
 
         .circuit-line.vertical {
-            width: 1px;
-            height: 100px;
-            animation: slideDown 6s infinite;
+            width: 2px;
+            height: 120px;
+            animation: traceFlowV 8s linear infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.1; }
-            50% { opacity: 0.3; }
+        .circuit-line.diagonal {
+            height: 2px;
+            width: 100px;
+            animation: traceFlowD 12s linear infinite;
         }
 
-        @keyframes slideRight {
-            0% { transform: translateX(-100px); opacity: 0; }
-            50% { opacity: 0.3; }
-            100% { transform: translateX(calc(100vw + 100px)); opacity: 0; }
+        /* PCB Trace Animation */
+        @keyframes traceFlowH {
+            0% { 
+                transform: translateX(-150px) scaleX(0.5);
+                opacity: 0;
+                box-shadow: 0 0 3px rgba(0, 212, 255, 0.3);
+            }
+            30% { 
+                opacity: 0.2;
+                transform: translateX(0) scaleX(1);
+                box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+            }
+            70% { 
+                opacity: 0.15;
+                box-shadow: 0 0 5px rgba(0, 212, 255, 0.4);
+            }
+            100% { 
+                transform: translateX(calc(100vw + 150px)) scaleX(0.5);
+                opacity: 0;
+                box-shadow: 0 0 2px rgba(0, 212, 255, 0.2);
+            }
         }
 
-        @keyframes slideDown {
-            0% { transform: translateY(-100px); opacity: 0; }
-            50% { opacity: 0.3; }
-            100% { transform: translateY(calc(100vh + 100px)); opacity: 0; }
+        @keyframes traceFlowV {
+            0% { 
+                transform: translateY(-150px) scaleY(0.5);
+                opacity: 0;
+            }
+            30% { 
+                opacity: 0.2;
+                transform: translateY(0) scaleY(1);
+                box-shadow: 0 0 8px rgba(255, 107, 53, 0.4);
+            }
+            70% { 
+                opacity: 0.15;
+                box-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
+            }
+            100% { 
+                transform: translateY(calc(100vh + 150px)) scaleY(0.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes traceFlowD {
+            0% { 
+                transform: translate(-100px, -100px) rotate(45deg) scale(0.5);
+                opacity: 0;
+            }
+            30% { 
+                opacity: 0.18;
+                transform: translate(0, 0) rotate(45deg) scale(1);
+                box-shadow: 0 0 6px rgba(102, 187, 106, 0.4);
+            }
+            100% { 
+                transform: translate(calc(100vw + 100px), calc(100vh + 100px)) rotate(45deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* PCB Connection Points/Vias */
+        .pcb-via {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, var(--primary-color), rgba(0, 212, 255, 0.3));
+            border-radius: 50%;
+            box-shadow: 
+                0 0 10px rgba(0, 212, 255, 0.6),
+                inset 0 0 3px rgba(0, 0, 0, 0.5);
+            animation: viaPulse 4s ease-in-out infinite;
+        }
+
+        .pcb-via.orange {
+            background: radial-gradient(circle, var(--accent-color), rgba(255, 107, 53, 0.3));
+            box-shadow: 
+                0 0 10px rgba(255, 107, 53, 0.6),
+                inset 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .pcb-via.green {
+            background: radial-gradient(circle, #4caf50, rgba(76, 175, 80, 0.3));
+            box-shadow: 
+                0 0 10px rgba(76, 175, 80, 0.6),
+                inset 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes viaPulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: scale(1.3);
+                opacity: 1;
+            }
+        }
+
+        /* PCB Component Outlines */
+        .pcb-component {
+            position: absolute;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 2px;
+            animation: componentGlow 6s ease-in-out infinite;
+        }
+
+        .pcb-component.ic {
+            width: 40px;
+            height: 20px;
+        }
+
+        .pcb-component.resistor {
+            width: 25px;
+            height: 8px;
+            background: linear-gradient(90deg, 
+                rgba(255, 107, 53, 0.1), 
+                rgba(255, 193, 7, 0.1), 
+                rgba(255, 107, 53, 0.1));
+        }
+
+        .pcb-component.capacitor {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(76, 175, 80, 0.08);
+            border-color: rgba(76, 175, 80, 0.3);
+        }
+
+        @keyframes componentGlow {
+            0%, 100% { 
+                box-shadow: 0 0 5px rgba(0, 212, 255, 0.2);
+                border-color: rgba(0, 212, 255, 0.2);
+            }
+            50% { 
+                box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+                border-color: rgba(0, 212, 255, 0.4);
+            }
+        }
+
+        /* Data Flow Animation */
+        .data-pulse {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--primary-color);
+            animation: dataFlow 8s linear infinite;
+        }
+
+        /* PCB Track/Trace Patterns */
+        .pcb-track {
+            position: absolute;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 193, 7, 0.3) 10%, 
+                rgba(255, 193, 7, 0.8) 50%, 
+                rgba(255, 193, 7, 0.3) 90%, 
+                transparent 100%);
+            border-radius: 1px;
+            box-shadow: 
+                0 0 8px rgba(255, 193, 7, 0.4),
+                inset 0 0 2px rgba(255, 255, 255, 0.2);
+            animation: trackSignal 8s linear infinite;
+        }
+
+        .pcb-track.horizontal {
+            height: 3px;
+            width: 300px;
+        }
+
+        .pcb-track.vertical {
+            width: 3px;
+            height: 250px;
+        }
+
+        .pcb-track.curved {
+            height: 3px;
+            width: 200px;
+            border-radius: 50px;
+            transform-origin: left center;
+        }
+
+        /* Multi-layer PCB tracks with different colors */
+        .pcb-track.power {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 87, 51, 0.3) 10%, 
+                rgba(255, 87, 51, 0.9) 50%, 
+                rgba(255, 87, 51, 0.3) 90%, 
+                transparent 100%);
+            box-shadow: 
+                0 0 10px rgba(255, 87, 51, 0.5),
+                inset 0 0 3px rgba(255, 255, 255, 0.2);
+            height: 4px;
+        }
+
+        .pcb-track.ground {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(76, 175, 80, 0.3) 10%, 
+                rgba(76, 175, 80, 0.8) 50%, 
+                rgba(76, 175, 80, 0.3) 90%, 
+                transparent 100%);
+            box-shadow: 
+                0 0 8px rgba(76, 175, 80, 0.4),
+                inset 0 0 2px rgba(255, 255, 255, 0.2);
+            height: 5px;
+        }
+
+        .pcb-track.signal {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(0, 212, 255, 0.3) 10%, 
+                rgba(0, 212, 255, 0.9) 50%, 
+                rgba(0, 212, 255, 0.3) 90%, 
+                transparent 100%);
+            box-shadow: 
+                0 0 8px rgba(0, 212, 255, 0.4),
+                inset 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Track signal flow animation */
+        @keyframes trackSignal {
+            0% { 
+                opacity: 0.3;
+                transform: scaleX(0.8);
+                filter: brightness(0.8);
+            }
+            25% { 
+                opacity: 0.8;
+                transform: scaleX(1);
+                filter: brightness(1.2);
+            }
+            50% { 
+                opacity: 1;
+                transform: scaleX(1.1);
+                filter: brightness(1.5);
+            }
+            75% { 
+                opacity: 0.7;
+                transform: scaleX(1);
+                filter: brightness(1);
+            }
+            100% { 
+                opacity: 0.3;
+                transform: scaleX(0.8);
+                filter: brightness(0.8);
+            }
+        }
+
+        /* PCB Track Junctions/Intersections */
+        .pcb-junction {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, 
+                rgba(255, 193, 7, 1) 0%, 
+                rgba(255, 193, 7, 0.8) 60%, 
+                rgba(255, 193, 7, 0.3) 100%);
+            border-radius: 2px;
+            box-shadow: 
+                0 0 12px rgba(255, 193, 7, 0.7),
+                inset 0 0 4px rgba(255, 255, 255, 0.3);
+            animation: junctionPulse 3s ease-in-out infinite;
+        }
+
+        .pcb-junction.power {
+            background: radial-gradient(circle, 
+                rgba(255, 87, 51, 1) 0%, 
+                rgba(255, 87, 51, 0.8) 60%, 
+                rgba(255, 87, 51, 0.3) 100%);
+            box-shadow: 
+                0 0 15px rgba(255, 87, 51, 0.8),
+                inset 0 0 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .pcb-junction.ground {
+            background: radial-gradient(circle, 
+                rgba(76, 175, 80, 1) 0%, 
+                rgba(76, 175, 80, 0.8) 60%, 
+                rgba(76, 175, 80, 0.3) 100%);
+            box-shadow: 
+                0 0 12px rgba(76, 175, 80, 0.7),
+                inset 0 0 4px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes junctionPulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            50% { 
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Complex PCB Track Patterns */
+        .pcb-track-complex {
+            position: absolute;
+            border: none;
+            background: none;
+        }
+
+        .pcb-track-complex::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 212, 255, 0.6), 
+                rgba(255, 193, 7, 0.8), 
+                rgba(255, 87, 51, 0.6), 
+                transparent);
+            border-radius: 1px;
+            animation: complexSignal 6s linear infinite;
+        }
+
+        .pcb-track-complex::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(76, 175, 80, 0.4), 
+                rgba(76, 175, 80, 0.8), 
+                rgba(76, 175, 80, 0.4), 
+                transparent);
+            border-radius: 1px;
+            animation: complexSignal 6s linear infinite reverse;
+        }
+
+        @keyframes complexSignal {
+            0% { 
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            20% { 
+                opacity: 0.8;
+            }
+            80% { 
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translateX(20px);
+                opacity: 0;
+            }
         }
 
         /* Navigation */
@@ -191,38 +556,232 @@
             position: relative;
         }
 
+        /* Enhanced Circuit Board Visual */
         .circuit-board {
             width: 300px;
             height: 300px;
-            border: 2px solid var(--primary-color);
+            border: 3px solid var(--primary-color);
             border-radius: 20px;
-            background: var(--card-bg);
+            background: linear-gradient(135deg, 
+                rgba(10, 14, 39, 0.9) 0%, 
+                rgba(0, 212, 255, 0.05) 50%, 
+                rgba(10, 14, 39, 0.9) 100%);
             position: relative;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 
+                0 0 30px rgba(0, 212, 255, 0.3),
+                inset 0 0 50px rgba(0, 212, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* PCB Trace Pattern Inside Circuit Board */
+        .circuit-board::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(45deg, rgba(255, 107, 53, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px, 20px 20px, 28px 28px;
+            border-radius: 15px;
+            animation: gridPulse 4s ease-in-out infinite alternate;
+        }
+        
+        @keyframes gridPulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Enhanced Circuit Dots */
+        .circuit-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, var(--primary-color), rgba(0, 212, 255, 0.3));
+            border-radius: 50%;
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            animation: electronFlow 3s infinite;
+            box-shadow: 
+                0 0 15px rgba(0, 212, 255, 0.8),
+                inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .circuit-dot:nth-child(1) { 
+            top: 20%; 
+            left: 20%; 
+            background: radial-gradient(circle, var(--primary-color), rgba(0, 212, 255, 0.3));
+        }
+        .circuit-dot:nth-child(2) { 
+            top: 30%; 
+            right: 25%; 
+            animation-delay: 0.75s; 
+            background: radial-gradient(circle, var(--accent-color), rgba(255, 107, 53, 0.3));
+            border-color: rgba(255, 107, 53, 0.5);
+            box-shadow: 
+                0 0 15px rgba(255, 107, 53, 0.8),
+                inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        .circuit-dot:nth-child(3) { 
+            bottom: 25%; 
+            left: 30%; 
+            animation-delay: 1.5s; 
+            background: radial-gradient(circle, #4caf50, rgba(76, 175, 80, 0.3));
+            border-color: rgba(76, 175, 80, 0.5);
+            box-shadow: 
+                0 0 15px rgba(76, 175, 80, 0.8),
+                inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        .circuit-dot:nth-child(4) { 
+            bottom: 20%; 
+            right: 20%; 
+            animation-delay: 2.25s;
+            background: radial-gradient(circle, #ffc107, rgba(255, 193, 7, 0.3));
+            border-color: rgba(255, 193, 7, 0.5);
+            box-shadow: 
+                0 0 15px rgba(255, 193, 7, 0.8),
+                inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes electronFlow {
+            0%, 70% { 
+                transform: scale(1);
+                opacity: 0.8;
+                box-shadow: 
+                    0 0 15px currentColor,
+                    inset 0 0 5px rgba(0, 0, 0, 0.3);
+            }
+            35% { 
+                transform: scale(1.4);
+                opacity: 1;
+                box-shadow: 
+                    0 0 25px currentColor,
+                    0 0 40px currentColor,
+                    inset 0 0 8px rgba(0, 0, 0, 0.4);
+            }
+        }
+        
+        /* Add connecting traces between dots */
+        .circuit-board::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: 
+                linear-gradient(45deg, transparent 48%, rgba(0, 212, 255, 0.2) 49%, rgba(0, 212, 255, 0.2) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(255, 107, 53, 0.15) 49%, rgba(255, 107, 53, 0.15) 51%, transparent 52%);
+            border-radius: 17px;
+            animation: traceGlow 2s ease-in-out infinite alternate;
+        }
+        
+        /* Profile Image Container */
+        .profile-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
             animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .circuit-dot {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: var(--primary-color);
+        .profile-image {
+            width: 280px;
+            height: 280px;
             border-radius: 50%;
-            animation: blink 2s infinite;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            box-shadow: 
+                0 0 30px rgba(0, 212, 255, 0.4),
+                inset 0 0 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
         }
 
-        .circuit-dot:nth-child(1) { top: 20%; left: 20%; }
-        .circuit-dot:nth-child(2) { top: 30%; right: 25%; animation-delay: 0.5s; }
-        .circuit-dot:nth-child(3) { bottom: 25%; left: 30%; animation-delay: 1s; }
-        .circuit-dot:nth-child(4) { bottom: 20%; right: 20%; animation-delay: 1.5s; }
+        .profile-image:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-color);
+            box-shadow: 
+                0 0 40px rgba(255, 107, 53, 0.5),
+                inset 0 0 25px rgba(0, 0, 0, 0.3);
+        }
 
-        @keyframes blink {
-            0%, 50% { opacity: 1; box-shadow: 0 0 10px var(--glow-color); }
-            51%, 100% { opacity: 0.3; box-shadow: none; }
+        /* Circuit frame around the image */
+        .circuit-frame {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50%;
+            background: 
+                linear-gradient(135deg, transparent 48%, rgba(0, 212, 255, 0.1) 49%, rgba(0, 212, 255, 0.1) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(255, 107, 53, 0.08) 49%, rgba(255, 107, 53, 0.08) 51%, transparent 52%);
+            animation: frameRotate 20s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes frameRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Enhanced Circuit Dots for Profile */
+        .circuit-frame .circuit-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, var(--primary-color), rgba(0, 212, 255, 0.3));
+            border-radius: 50%;
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            animation: electronFlow 3s infinite;
+            box-shadow: 
+                0 0 15px rgba(0, 212, 255, 0.8),
+                inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .circuit-frame .circuit-dot:nth-child(1) { 
+            top: 10%; 
+            left: 50%; 
+            transform: translateX(-50%);
+            background: radial-gradient(circle, var(--primary-color), rgba(0, 212, 255, 0.3));
+        }
+        .circuit-frame .circuit-dot:nth-child(2) { 
+            top: 50%; 
+            right: 10%; 
+            transform: translateY(-50%);
+            animation-delay: 0.75s; 
+            background: radial-gradient(circle, var(--accent-color), rgba(255, 107, 53, 0.3));
+            border-color: rgba(255, 107, 53, 0.5);
+            box-shadow: 
+                0 0 15px rgba(255, 107, 53, 0.8),
+                inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        .circuit-frame .circuit-dot:nth-child(3) { 
+            bottom: 10%; 
+            left: 50%; 
+            transform: translateX(-50%);
+            animation-delay: 1.5s; 
+            background: radial-gradient(circle, #4caf50, rgba(76, 175, 80, 0.3));
+            border-color: rgba(76, 175, 80, 0.5);
+            box-shadow: 
+                0 0 15px rgba(76, 175, 80, 0.8),
+                inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        .circuit-frame .circuit-dot:nth-child(4) { 
+            top: 50%; 
+            left: 10%; 
+            transform: translateY(-50%);
+            animation-delay: 2.25s;
+            background: radial-gradient(circle, #ffc107, rgba(255, 193, 7, 0.3));
+            border-color: rgba(255, 193, 7, 0.5);
+            box-shadow: 
+                0 0 15px rgba(255, 193, 7, 0.8),
+                inset 0 0 5px rgba(0, 0, 0, 0.3);
         }
 
         /* Interactive Buttons */
@@ -278,10 +837,14 @@
             left: 100%;
         }
 
-        /* Skills Section */
-        .skills-grid {
+        /* IMPROVED SKILLS SECTION */
+        #skills {
+            padding: 5rem 5% 3rem 5%;
+        }
+
+        .skills-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
@@ -293,26 +856,59 @@
             border: 1px solid rgba(0, 212, 255, 0.2);
             transition: all 0.3s ease;
             position: relative;
+            backdrop-filter: blur(10px);
         }
 
         .skill-category:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
             border-color: var(--primary-color);
         }
 
         .skill-category h3 {
             color: var(--primary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.7rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .skill-category h3 i {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
 
         .skill-item {
             display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .skill-header {
+            display: flex;
             justify-content: space-between;
-            margin: 1rem 0;
+            align-items: center;
+        }
+
+        .skill-name {
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .skill-level {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: 500;
         }
 
         .skill-bar {
@@ -321,7 +917,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
             overflow: hidden;
-            margin-top: 0.5rem;
+            position: relative;
         }
 
         .skill-progress {
@@ -330,7 +926,30 @@
             border-radius: 4px;
             transition: width 2s ease;
             width: 0%;
+            position: relative;
         }
+
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Skill level indicators */
+        .skill-beginner .skill-progress { background: linear-gradient(90deg, #ffa726, #ff7043); }
+        .skill-intermediate .skill-progress { background: linear-gradient(90deg, #42a5f5, #29b6f6); }
+        .skill-advanced .skill-progress { background: linear-gradient(90deg, #66bb6a, #4caf50); }
+        .skill-expert .skill-progress { background: linear-gradient(90deg, var(--primary-color), var(--accent-color)); }
 
         /* Projects Section */
         .projects-grid {
@@ -408,63 +1027,6 @@
             transform: scale(1.05);
         }
 
-        /* Contact Section */
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--card-bg);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .contact-item:hover {
-            transform: translateX(10px);
-            background: rgba(0, 212, 255, 0.1);
-        }
-
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 1rem;
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            border-radius: 10px;
-            background: var(--card-bg);
-            color: var(--text-light);
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
-        }
-
         /* Social Links */
         .social-links {
             display: flex;
@@ -527,13 +1089,27 @@
                 font-size: 2.5rem;
             }
 
-            .contact-container {
+            .skills-container {
                 grid-template-columns: 1fr;
             }
 
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skills-container {
+                gap: 1.5rem;
+            }
+            
+            .skill-category {
+                padding: 1.5rem;
+            }
+            
+            section {
+                padding: 4rem 3%;
             }
         }
 
@@ -569,18 +1145,103 @@
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
+    <!-- PCB Circuit Animated Background -->
     <div class="bg-animation">
-        <div class="circuit-line horizontal" style="top: 20%; animation-delay: 0s;"></div>
-        <div class="circuit-line horizontal" style="top: 60%; animation-delay: 2s;"></div>
-        <div class="circuit-line vertical" style="left: 30%; animation-delay: 1s;"></div>
-        <div class="circuit-line vertical" style="right: 20%; animation-delay: 3s;"></div>
+        <!-- Grid Pattern is handled by CSS ::before -->
+        
+        <!-- Horizontal Circuit Traces -->
+        <div class="circuit-line horizontal" style="top: 15%; animation-delay: 0s;"></div>
+        <div class="circuit-line horizontal" style="top: 35%; animation-delay: 2s;"></div>
+        <div class="circuit-line horizontal" style="top: 55%; animation-delay: 4s;"></div>
+        <div class="circuit-line horizontal" style="top: 75%; animation-delay: 6s;"></div>
+        <div class="circuit-line horizontal" style="top: 85%; animation-delay: 1s;"></div>
+        
+        <!-- Vertical Circuit Traces -->
+        <div class="circuit-line vertical" style="left: 20%; animation-delay: 1s;"></div>
+        <div class="circuit-line vertical" style="left: 40%; animation-delay: 3s;"></div>
+        <div class="circuit-line vertical" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="circuit-line vertical" style="left: 80%; animation-delay: 7s;"></div>
+        
+        <!-- Diagonal Traces -->
+        <div class="circuit-line diagonal" style="top: 25%; left: 10%; animation-delay: 2s;"></div>
+        <div class="circuit-line diagonal" style="top: 65%; left: 70%; animation-delay: 4s;"></div>
+        
+        <!-- PCB Vias (Connection Points) -->
+        <div class="pcb-via" style="top: 20%; left: 25%; animation-delay: 0s;"></div>
+        <div class="pcb-via orange" style="top: 40%; left: 60%; animation-delay: 1s;"></div>
+        <div class="pcb-via green" style="top: 70%; left: 30%; animation-delay: 2s;"></div>
+        <div class="pcb-via" style="top: 80%; left: 75%; animation-delay: 3s;"></div>
+        <div class="pcb-via orange" style="top: 30%; left: 80%; animation-delay: 1.5s;"></div>
+        <div class="pcb-via green" style="top: 60%; left: 15%; animation-delay: 2.5s;"></div>
+        
+        <!-- PCB Components -->
+        <div class="pcb-component ic" style="top: 18%; left: 45%; animation-delay: 0s;"></div>
+        <div class="pcb-component resistor" style="top: 35%; left: 25%; animation-delay: 1s;"></div>
+        <div class="pcb-component capacitor" style="top: 55%; left: 70%; animation-delay: 2s;"></div>
+        <div class="pcb-component ic" style="top: 75%; left: 50%; animation-delay: 1.5s;"></div>
+        <div class="pcb-component resistor" style="top: 25%; left: 70%; animation-delay: 0.5s;"></div>
+        <div class="pcb-component capacitor" style="top: 65%; left: 40%; animation-delay: 2.5s;"></div>
+        
+        <!-- Horizontal PCB Tracks -->
+        <div class="pcb-track horizontal signal" style="top: 12%; left: 5%; animation-delay: 0s;"></div>
+        <div class="pcb-track horizontal power" style="top: 28%; left: 15%; animation-delay: 1s;"></div>
+        <div class="pcb-track horizontal ground" style="top: 45%; left: 10%; animation-delay: 2s;"></div>
+        <div class="pcb-track horizontal signal" style="top: 62%; left: 20%; animation-delay: 3s;"></div>
+        <div class="pcb-track horizontal power" style="top: 78%; left: 8%; animation-delay: 0.5s;"></div>
+        <div class="pcb-track horizontal" style="top: 88%; left: 25%; animation-delay: 2.5s;"></div>
+        
+        <!-- Vertical PCB Tracks -->
+        <div class="pcb-track vertical signal" style="top: 15%; left: 12%; animation-delay: 1.5s;"></div>
+        <div class="pcb-track vertical ground" style="top: 20%; left: 35%; animation-delay: 2.5s;"></div>
+        <div class="pcb-track vertical power" style="top: 10%; left: 58%; animation-delay: 0.8s;"></div>
+        <div class="pcb-track vertical signal" style="top: 25%; left: 75%; animation-delay: 3.2s;"></div>
+        <div class="pcb-track vertical" style="top: 30%; left: 88%; animation-delay: 1.8s;"></div>
+        
+        <!-- Curved/Angled PCB Tracks -->
+        <div class="pcb-track curved signal" style="top: 18%; left: 45%; transform: rotate(25deg); animation-delay: 1.2s;"></div>
+        <div class="pcb-track curved power" style="top: 52%; left: 60%; transform: rotate(-15deg); animation-delay: 2.8s;"></div>
+        <div class="pcb-track curved ground" style="top: 72%; left: 35%; transform: rotate(45deg); animation-delay: 0.3s;"></div>
+        
+        <!-- Complex Multi-layer Tracks -->
+        <div class="pcb-track-complex" style="top: 38%; left: 25%; width: 250px; animation-delay: 1s;"></div>
+        <div class="pcb-track-complex" style="top: 68%; left: 15%; width: 200px; animation-delay: 2.3s;"></div>
+        
+        <!-- PCB Track Junctions -->
+        <div class="pcb-junction signal" style="top: 28%; left: 42%; animation-delay: 0.5s;"></div>
+        <div class="pcb-junction power" style="top: 45%; left: 28%; animation-delay: 1.5s;"></div>
+        <div class="pcb-junction ground" style="top: 62%; left: 55%; animation-delay: 2s;"></div>
+        <div class="pcb-junction signal" style="top: 78%; left: 38%; animation-delay: 2.7s;"></div>
+        <div class="pcb-junction power" style="top: 18%; left: 65%; animation-delay: 0.8s;"></div>
+        <div class="pcb-junction ground" style="top: 52%; left: 72%; animation-delay: 3.1s;"></div>
+        
+        @keyframes dataFlow {
+            0% { 
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            25% { 
+                transform: translate(200px, 0);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translate(200px, 150px);
+                opacity: 0.6;
+            }
+            75% { 
+                transform: translate(0, 150px);
+                opacity: 0.4;
+            }
+            100% { 
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+        }
     </div>
 
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="#" class="logo">My Porfolio</a>
+            <a href="#" class="logo">My Portfolio</a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#skills">Skills</a></li>
@@ -626,12 +1287,26 @@
         </div>
 
         <div class="hero-visual fade-in">
+            <!-- Option 1: Profile Photo with PCB Frame -->
+            <div class="profile-container">
+                <img src="Profile.png" alt="Rahul Vinayak J R" class="profile-image">
+                <div class="circuit-frame">
+                    <div class="circuit-dot"></div>
+                    <div class="circuit-dot"></div>
+                    <div class="circuit-dot"></div>
+                    <div class="circuit-dot"></div>
+                </div>
+            </div>
+            
+            <!-- Option 2: Keep circuit board (comment out the above and uncomment below) -->
+            <!--
             <div class="circuit-board">
                 <div class="circuit-dot"></div>
                 <div class="circuit-dot"></div>
                 <div class="circuit-dot"></div>
                 <div class="circuit-dot"></div>
             </div>
+            -->
         </div>
     </section>
 
@@ -642,69 +1317,261 @@
             <p>Comprehensive skill set spanning hardware design, software development, and emerging technologies</p>
         </div>
 
-        <div class="skills-grid">
+        <div class="skills-container">
+            <!-- Embedded Systems -->
             <div class="skill-category fade-in">
                 <h3><i class="fas fa-microchip"></i> Embedded Systems</h3>
-                <div class="skill-item">
-                    <span>ARM Cortex-M</span>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="60%"></div>
+                <div class="skills-list">
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">ARM Cortex-M</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="60%"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="skill-item">
-                    <span>Arduino/ESP32</span>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="90%"></div>
+                    <div class="skill-item skill-expert">
+                        <div class="skill-header">
+                            <span class="skill-name">Arduino/ESP32</span>
+                            <span class="skill-level">Expert</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90%"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="skill-item">
-                    <span>STM32</span>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="75%"></div>
+                    <div class="skill-item skill-advanced">
+                        <div class="skill-header">
+                            <span class="skill-name">STM32</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="75%"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="skill-item">
-                    <span>RTOS</span>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="60%"></div>
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">RTOS</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="60%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Wireless Communication -->
             <div class="skill-category fade-in">
-                <h3><i class="fas fa-broadcast-tower"></i> Communication</h3>
-                <div class="skill-item">
-                    <span>Wireless Protocols</span>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="75%"></div>
+                <h3><i class="fas fa-broadcast-tower"></i> Wireless Communication</h3>
+                <div class="skills-list">
+                    <div class="skill-item skill-advanced">
+                        <div class="skill-header">
+                            <span class="skill-name">WiFi Protocol</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="75%"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="skill-item">
-                    <span>IoT Protocols</span>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="90%"></div>
+                    <div class="skill-item skill-expert">
+                        <div class="skill-header">
+                            <span class="skill-name">Bluetooth Protocols</span>
+                            <span class="skill-level">Expert</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">LoRa/LoRaWAN</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="65%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Embedded Communication Protocols -->
             <div class="skill-category fade-in">
-                <h3><i class="fas fa-code"></i> Programming</h3>
-                <div class="skill-item">
-                    <span>C/C++</span>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="90%"></div>
+                <h3><i class="fas fa-exchange-alt"></i> Embedded Communication</h3>
+                <div class="skills-list">
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">UART Protocol</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="60%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-expert">
+                        <div class="skill-header">
+                            <span class="skill-name">I2C Protocol</span>
+                            <span class="skill-level">Expert</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-advanced">
+                        <div class="skill-header">
+                            <span class="skill-name">SPI Protocol</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="75%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">USB Protocol</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="60%"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="skill-item">
-                    <span>Python</span>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="60%"></div>
+            </div>
+
+            <!-- Industrial Communication -->
+            <div class="skill-category fade-in">
+                <h3><i class="fas fa-industry"></i> Industrial Communication</h3>
+                <div class="skills-list">
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">RS232 Protocol</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="60%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-expert">
+                        <div class="skill-header">
+                            <span class="skill-name">RS422 Protocol</span>
+                            <span class="skill-level">Expert</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-advanced">
+                        <div class="skill-header">
+                            <span class="skill-name">RS485 Protocol</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="75%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">Ethernet Modbus</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="60%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">CAN Protocol</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="60%"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="skill-item">
-                    <span>Verilog/VHDL</span>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="50%"></div>
+            </div>
+
+            <!-- Programming Languages -->
+            <div class="skill-category fade-in">
+                <h3><i class="fas fa-code"></i> Programming Languages</h3>
+                <div class="skills-list">
+                    <div class="skill-item skill-expert">
+                        <div class="skill-header">
+                            <span class="skill-name">C/C++</span>
+                            <span class="skill-level">Expert</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">Python</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="60%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-beginner">
+                        <div class="skill-header">
+                            <span class="skill-name">Verilog/VHDL</span>
+                            <span class="skill-level">Beginner</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="50%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">MATLAB</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="65%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hardware Design -->
+            <div class="skill-category fade-in">
+                <h3><i class="fas fa-tools"></i> Hardware & Tools</h3>
+                <div class="skills-list">
+                    <div class="skill-item skill-advanced">
+                        <div class="skill-header">
+                            <span class="skill-name">PCB Design (KiCad)</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="75%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-intermediate">
+                        <div class="skill-header">
+                            <span class="skill-name">Circuit Simulation</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="70%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-expert">
+                        <div class="skill-header">
+                            <span class="skill-name">Oscilloscope/Logic Analyzer</span>
+                            <span class="skill-level">Expert</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item skill-advanced">
+                        <div class="skill-header">
+                            <span class="skill-name">Soldering & Assembly</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="80%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -740,7 +1607,7 @@
                 </div>
                 <div class="project-content">
                     <h3>Self Stabilizing Spoon</h3>
-                    <p>Real-time health monitoring system with ECG, pulse oximetry, and temperature sensors. Data transmitted via LoRaWAN to cloud dashboard with ML anomaly detection.</p>
+                    <p>An assistive device designed for Parkinson's patients, built using Arduino, MPU6050 motion sensor, and two servo motors. The system compensates for hand tremors by actively stabilizing the spoon, allowing users to eat with greater comfort and independence.</p>
                     <div class="project-links">
                         <a href="https://github.com/rahulvinayak/Projects/tree/main/Self%20Stabilizing%20Spoon" target="_blank" class="project-link">
                             <i class="fab fa-github"></i> Code
@@ -755,7 +1622,7 @@
                 </div>
                 <div class="project-content">
                     <h3>Two Stage Communication System</h3>
-                    <p>Software-defined radio implementation for 5G signal analysis and beamforming simulation. Built with GNU Radio and custom FPGA acceleration for real-time processing.</p>
+                    <p>Designed and implemented a digital communication system on an FPGA, integrating both source encoding/decoding and channel encoding/decoding into a single hardware pipeline. The system is optimized for handheld devices, achieving low latency, improved efficiency, and reduced power consumption compared to separate implementations.</p>
                     <div class="project-links">
                         <a href="https://github.com/rahulvinayak/Projects/tree/main/Two%20Stage%20Communication%20System" target="_blank" class="project-link">
                             <i class="fab fa-github"></i> Code
@@ -769,8 +1636,8 @@
                     <i class="fa-solid fa-user-secret"></i>
                 </div>
                 <div class="project-content">
-                    <h3>Underground Fault Detector</h3>
-                    <p>Complete home automation system with voice control, mobile app, and energy optimization. Features Zigbee mesh network and edge AI for predictive automation.</p>
+                    <h3>Underground Cable Fault Detector</h3>
+                    <p>A fault detection system for underground power cables, implemented using an Arduino Nano, VSWR processing unit, and a 16×2 LCD display. The system identifies the location of faults by measuring signal variations and alerts the user through a buzzer and display output.</p>
                     <div class="project-links">
                         <a href="https://github.com/yourusername/smart-home" target="_blank" class="project-link">
                             <i class="fab fa-github"></i> Code
@@ -780,8 +1647,6 @@
             </div>
         </div>
     </section>
-
-
 
     <!-- Footer -->
     <footer style="text-align: center; padding: 2rem; background: var(--darker-bg); margin-top: 3rem;">
@@ -823,20 +1688,20 @@
             observer.observe(el);
         });
 
-        // Skill bar animations
+        // Enhanced skill bar animations
         const skillObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const skillBars = entry.target.querySelectorAll('.skill-progress');
-                    skillBars.forEach(bar => {
+                    skillBars.forEach((bar, index) => {
                         const width = bar.getAttribute('data-width');
                         setTimeout(() => {
                             bar.style.width = width;
-                        }, 200);
+                        }, 200 + (index * 100)); // Staggered animation
                     });
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.3 });
 
         document.querySelectorAll('.skill-category').forEach(category => {
             skillObserver.observe(category);
@@ -853,17 +1718,34 @@
             });
         });
 
-        // Dynamic background elements
-        function createCircuitElements() {
+        // Enhanced skill category interactions
+        document.querySelectorAll('.skill-category').forEach(category => {
+            category.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+                this.style.boxShadow = '0 25px 50px rgba(0, 212, 255, 0.3)';
+            });
+            
+            category.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.boxShadow = '0 20px 40px rgba(0, 212, 255, 0.2)';
+            });
+        });
+
+        // Enhanced PCB-themed dynamic background elements
+        function createPCBElements() {
             const bgAnimation = document.querySelector('.bg-animation');
             
-            // Create random circuit elements
+            // Create random PCB traces
             setInterval(() => {
+                // Random trace type
+                const traceTypes = ['horizontal', 'vertical', 'diagonal'];
+                const traceType = traceTypes[Math.floor(Math.random() * traceTypes.length)];
+                
                 const element = document.createElement('div');
-                element.className = `circuit-line ${Math.random() > 0.5 ? 'horizontal' : 'vertical'}`;
+                element.className = `circuit-line ${traceType}`;
                 element.style.top = Math.random() * 100 + '%';
                 element.style.left = Math.random() * 100 + '%';
-                element.style.animationDelay = Math.random() * 2 + 's';
+                element.style.animationDelay = Math.random() * 3 + 's';
                 
                 bgAnimation.appendChild(element);
                 
@@ -872,11 +1754,139 @@
                     if (element.parentNode) {
                         element.parentNode.removeChild(element);
                     }
+                }, 12000);
+            }, 4000);
+            
+            // Create random PCB vias
+            setInterval(() => {
+                const viaTypes = ['', 'orange', 'green'];
+                const viaType = viaTypes[Math.floor(Math.random() * viaTypes.length)];
+                
+                const via = document.createElement('div');
+                via.className = `pcb-via ${viaType}`;
+                via.style.top = Math.random() * 100 + '%';
+                via.style.left = Math.random() * 100 + '%';
+                via.style.animationDelay = Math.random() * 2 + 's';
+                
+                bgAnimation.appendChild(via);
+                
+                // Remove via after some time
+                setTimeout(() => {
+                    if (via.parentNode) {
+                        via.parentNode.removeChild(via);
+                    }
                 }, 8000);
-            }, 3000);
+            }, 6000);
+            
+            // Create random PCB components
+            setInterval(() => {
+                const componentTypes = ['ic', 'resistor', 'capacitor'];
+                const componentType = componentTypes[Math.floor(Math.random() * componentTypes.length)];
+                
+                const component = document.createElement('div');
+                component.className = `pcb-component ${componentType}`;
+                component.style.top = Math.random() * 100 + '%';
+                component.style.left = Math.random() * 100 + '%';
+                component.style.animationDelay = Math.random() * 2 + 's';
+                
+                bgAnimation.appendChild(component);
+                
+                // Remove component after some time
+                setTimeout(() => {
+                    if (component.parentNode) {
+                        component.parentNode.removeChild(component);
+                    }
+                }, 10000);
+            }, 8000);
+            
+            // Create random PCB tracks
+            setInterval(() => {
+                const trackTypes = ['horizontal', 'vertical', 'curved'];
+                const trackClasses = ['signal', 'power', 'ground'];
+                const trackType = trackTypes[Math.floor(Math.random() * trackTypes.length)];
+                const trackClass = trackClasses[Math.floor(Math.random() * trackClasses.length)];
+                
+                const track = document.createElement('div');
+                track.className = `pcb-track ${trackType} ${trackClass}`;
+                track.style.top = Math.random() * 90 + 5 + '%';
+                track.style.left = Math.random() * 80 + 5 + '%';
+                track.style.animationDelay = Math.random() * 2 + 's';
+                
+                // Add random rotation for curved tracks
+                if (trackType === 'curved') {
+                    track.style.transform = `rotate(${Math.random() * 90 - 45}deg)`;
+                }
+                
+                bgAnimation.appendChild(track);
+                
+                // Remove track after some time
+                setTimeout(() => {
+                    if (track.parentNode) {
+                        track.parentNode.removeChild(track);
+                    }
+                }, 12000);
+            }, 5000);
+            
+            // Create random PCB junctions
+            setInterval(() => {
+                const junctionTypes = ['signal', 'power', 'ground'];
+                const junctionType = junctionTypes[Math.floor(Math.random() * junctionTypes.length)];
+                
+                const junction = document.createElement('div');
+                junction.className = `pcb-junction ${junctionType}`;
+                junction.style.top = Math.random() * 90 + 5 + '%';
+                junction.style.left = Math.random() * 90 + 5 + '%';
+                junction.style.animationDelay = Math.random() * 1.5 + 's';
+                
+                bgAnimation.appendChild(junction);
+                
+                // Remove junction after some time
+                setTimeout(() => {
+                    if (junction.parentNode) {
+                        junction.parentNode.removeChild(junction);
+                    }
+                }, 9000);
+            }, 7000);
+            
+            // Create complex track patterns
+            setInterval(() => {
+                const complexTrack = document.createElement('div');
+                complexTrack.className = 'pcb-track-complex';
+                complexTrack.style.top = Math.random() * 80 + 10 + '%';
+                complexTrack.style.left = Math.random() * 70 + 10 + '%';
+                complexTrack.style.width = (Math.random() * 150 + 100) + 'px';
+                complexTrack.style.animationDelay = Math.random() * 2 + 's';
+                
+                bgAnimation.appendChild(complexTrack);
+                
+                // Remove complex track after some time
+                setTimeout(() => {
+                    if (complexTrack.parentNode) {
+                        complexTrack.parentNode.removeChild(complexTrack);
+                    }
+                }, 10000);
+            }, 9000);
+            
+            // Create data flow pulses along tracks
+            setInterval(() => {
+                const pulse = document.createElement('div');
+                pulse.className = 'data-pulse';
+                pulse.style.top = Math.random() * 90 + 5 + '%';
+                pulse.style.left = Math.random() * 90 + 5 + '%';
+                pulse.style.animationDelay = Math.random() * 1 + 's';
+                
+                bgAnimation.appendChild(pulse);
+                
+                // Remove pulse after animation
+                setTimeout(() => {
+                    if (pulse.parentNode) {
+                        pulse.parentNode.removeChild(pulse);
+                    }
+                }, 8000);
+            }, 2500);
         }
 
-        createCircuitElements();
+        createPCBElements();
 
         // Navbar background on scroll
         window.addEventListener('scroll', () => {
@@ -888,31 +1898,6 @@
                 nav.style.background = 'rgba(10, 14, 39, 0.95)';
                 nav.style.backdropFilter = 'blur(10px)';
             }
-        });
-
-        // Form submission handler
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Add loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            submitBtn.disabled = true;
-            
-            // Simulate form submission
-            setTimeout(() => {
-                submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-                submitBtn.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
-                
-                // Reset form
-                setTimeout(() => {
-                    this.reset();
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                    submitBtn.style.background = 'linear-gradient(45deg, var(--primary-color), var(--secondary-color))';
-                }, 2000);
-            }, 2000);
         });
 
         // Mobile menu functionality
@@ -1036,8 +2021,69 @@
             }
         });
 
+        // Skill level tooltip functionality
+        document.querySelectorAll('.skill-item').forEach(item => {
+            const skillLevel = item.querySelector('.skill-level');
+            const skillName = item.querySelector('.skill-name');
+            
+            item.addEventListener('mouseenter', () => {
+                const level = skillLevel.textContent;
+                let description = '';
+                
+                switch(level) {
+                    case 'Beginner':
+                        description = 'Basic understanding and limited practical experience';
+                        break;
+                    case 'Intermediate':
+                        description = 'Good working knowledge with some practical projects';
+                        break;
+                    case 'Advanced':
+                        description = 'Strong expertise with multiple successful implementations';
+                        break;
+                    case 'Expert':
+                        description = 'Deep knowledge with extensive real-world experience';
+                        break;
+                }
+                
+                // Create tooltip
+                const tooltip = document.createElement('div');
+                tooltip.className = 'skill-tooltip';
+                tooltip.innerHTML = description;
+                tooltip.style.cssText = `
+                    position: absolute;
+                    bottom: 120%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: var(--darker-bg);
+                    color: var(--text-light);
+                    padding: 0.5rem 1rem;
+                    border-radius: 8px;
+                    font-size: 0.8rem;
+                    white-space: nowrap;
+                    z-index: 1000;
+                    border: 1px solid var(--primary-color);
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                `;
+                
+                item.style.position = 'relative';
+                item.appendChild(tooltip);
+                
+                setTimeout(() => {
+                    tooltip.style.opacity = '1';
+                }, 100);
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                const tooltip = item.querySelector('.skill-tooltip');
+                if (tooltip) {
+                    tooltip.remove();
+                }
+            });
+        });
+
         console.log('🚀 ECE Portfolio loaded successfully!');
-        console.log('💡 Ready to showcase your engineering excellence!');
+        console.log('💡 Enhanced skills section with improved layout and interactions!');
     </script>
 </body>
 </html>
